@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.mapper.RoomMapper">
+	<insert id="insertRoom">
+		INSERT INTO room(room_idx,room_name,room_price,room_guest,room_size,room_bedType,room_view,room_type,room_checkinout_time,room_infotext,room_file)
+		VALUES(#{room_idx},#{room_name},#{room_price},#{room_guest},#{room_size},#{room_bedType},#{room_view},#{room_type},#{room_checkinout_time},#{room_infotext},#{room_file})
+	</insert>
+	
+	<select id="getMaxNum" resultType="java.lang.Integer">
+		SELECT MAX(room_idx) FROM room
+	</select>
+	
+	<select id="getRoomList" resultType="com.itwillbs.domain.RoomDTO">
+		SELECT * FROM room order by room_idx DESC LIMIT #{startRow},#{pageSize}
+	</select>
+	
+	<select id="getRoomCount" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM room
+	</select>
+	
+	<select id="getRoom" resultType="com.itwillbs.domain.RoomDTO">
+		SELECT * FROM room WHERE room_idx=#{room_idx}
+	</select>
+	
+	<update id="updateRoom">
+		UPDATE room SET room_name=#{room_name},room_price=#{room_price},room_guest=#{room_guest},room_size=#{room_size},room_bedType=#{room_bedType},room_view=#{room_view},room_type=#{room_type},room_checkinout_time=#{room_checkinout_time},room_infotext=#{room_infotext},room_file=#{room_file}
+		WHERE room_idx=#{room_idx}
+	</update>
+	
+	<delete id="deleteRoom">
+		DELETE FROM room WHERE room_idx=#{room_idx}
+	</delete>
+	
+</mapper>

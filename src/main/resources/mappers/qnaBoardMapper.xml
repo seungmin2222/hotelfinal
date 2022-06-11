@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.mapper.QnaBoardMapper">
+	<insert id="insertQnaBoard">
+		insert into qna values(null,#{qna_pass},#{qna_category},#{qna_subject},#{qna_content},
+		#{qna_date},#{qna_req},#{qna_lev},#{qna_seq},#{member_id})
+	</insert>
+	
+	<select id="getQnaBoardList" resultType="com.itwillbs.domain.QnaBoardDTO">
+		select * from qna order by qna_req DESC,qna_seq ASC limit #{startRow},#{pageSize}
+	</select>
+	
+	<select id="getQnaBoardCount" resultType="java.lang.Integer">
+		select count(*) from qna
+	</select>
+	
+	<select id="getQnaBoard" resultType="com.itwillbs.domain.QnaBoardDTO">
+		SELECT * FROM qna WHERE qna_idx=#{qna_idx}
+	</select>
+	
+	<select id="getQnaPass" resultType="java.lang.String">
+		select qna_pass from qna where qna_idx=#{qna_idx}
+	</select>
+	
+	<update id="updateQnaBoard">
+		update qna set qna_category=#{qna_category},qna_subject=#{qna_subject},
+		qna_content=#{qna_content} where qna_idx=#{qna_idx}
+	</update>
+	
+	<delete id="deleteQnaBoard">
+      delete from qna where qna_idx=#{qna_idx}
+   </delete>
+   
+   <select id="getAutoIncrementNum" resultType="java.lang.Integer">
+		SELECT auto_increment FROM information_schema.tables 
+		WHERE table_name='qna' AND table_schema=DATABASE();
+   </select>
+   
+   <insert id="insertQnaReply">
+   		insert into qna values(null,#{qna_pass},#{qna_category},#{qna_subject},#{qna_content},
+		#{qna_date},#{qna_req},#{qna_lev},#{qna_seq},#{member_id})
+   </insert>
+	
+</mapper>

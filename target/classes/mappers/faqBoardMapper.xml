@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.mapper.FaqBoardMapper">
+	<insert id="insertFaqBoard">
+		INSERT INTO faq(faq_category,faq_subject,faq_content) 
+		VALUES(#{faq_category},#{faq_subject},#{faq_content})
+	</insert>
+	
+	<select id="getFaqBoardList" resultType="com.itwillbs.domain.FaqBoardDTO">
+		select * from faq order by faq_idx desc limit #{startRow},#{pageSize}
+	</select>
+	
+	<select id="getFaqBoardCount" resultType="java.lang.Integer">
+		select count(*) from faq
+	</select>
+	
+	<select id="getFaqBoard" resultType="com.itwillbs.domain.FaqBoardDTO">
+		SELECT * FROM faq WHERE faq_idx=#{faq_idx}
+	</select>
+	
+	<update id="updateFaqBoard">
+		update faq set faq_subject=#{faq_subject}, faq_content=#{faq_content} ,faq_category=#{faq_category} where faq_idx=#{faq_idx}
+	</update>
+	
+	<delete id="deleteFaqBoard">
+		delete from faq where faq_idx=#{faq_idx}
+	</delete>
+</mapper>

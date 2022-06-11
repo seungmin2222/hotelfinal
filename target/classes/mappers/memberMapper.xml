@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itwillbs.mapper.MemberMapper">
+   <insert id="insertMember">
+      insert into
+      member(member_id,member_pass,member_name,member_birth,member_address,member_phone,member_mail,member_gender,member_grade,member_totalPrice)
+      values(#{member_id},#{member_pass},#{member_name},#{member_birth},#{member_address},#{member_phone},#{member_mail},#{member_gender},"5th_bronze","0")
+   </insert>
+
+   <select id="userCheck"
+      resultType="com.itwillbs.domain.MemberDTO">
+      select * from member where member_id=#{member_id} and
+      member_pass=#{member_pass}
+   </select>
+
+   <select id="updateCheck"
+      resultType="com.itwillbs.domain.MemberDTO">
+      select * from member where member_id=#{member_id} and
+      member_pass=#{member_pass}
+   </select>
+
+   <select id="getMember"
+      resultType="com.itwillbs.domain.MemberDTO">
+      select * from member where member_id=#{member_id};
+   </select>
+
+   <select id="findId" resultType="com.itwillbs.domain.MemberDTO">
+      select member_id from member
+      where member_name=#{member_name} and member_phone=#{member_phone}
+   </select>
+
+   <select id="findPass" resultType="com.itwillbs.domain.MemberDTO">
+      select member_pass from member
+      where member_id=#{member_id} and member_name=#{member_name} and
+      member_phone=#{member_phone}
+   </select>
+   
+	<update id="updatePass">
+		UPDATE member SET
+		member_pass=#{member_pass}
+		WHERE member_id = #{member_id}
+	</update>
+	
+   <delete id="deleteMember">
+      DELETE FROM member WHERE member_id=#{member_id}
+   </delete>
+
+   <update id="updateMember">
+      update member set
+      member_address = #{member_address}, member_phone = #{member_phone}, member_mail =#{member_mail}
+      where member_pass = #{member_pass} and member_id = #{member_id}
+   </update>
+   
+   <update id="updateGrade">
+      update member set
+      member_grade = #{member_grade}
+      where member_id = #{member_id}
+   </update>
+   
+   <delete id="deleteReservation">
+      DELETE FROM reservation WHERE book_number=#{book_number}
+   </delete>
+
+</mapper>

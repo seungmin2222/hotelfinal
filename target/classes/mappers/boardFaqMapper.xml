@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.itwillbs.mapper.BoardFaqMapper">
+  	<insert id="insertFaq">
+  		INSERT INTO faq(faq_idx, faq_category, faq_subject, faq_content)
+  		VALUES(#{faq_idx}, #{faq_category}, #{faq_subject}, #{faq_content})
+  	</insert>
+  	
+  	<select id="getMaxNum" resultType="java.lang.Integer">
+  		SELECT MAX(faq_idx) FROM faq
+  	</select>
+  	
+  	<select id="getBoardFaqList" resultType="com.itwillbs.domain.BoardFaqDTO">
+  		SELECT * FROM faq ORDER BY faq_idx DESC LIMIT #{startRow}, #{pageSize}
+  	</select>
+  	
+  	<select id="getBoardFaqCount" resultType="java.lang.Integer">
+  		SELECT COUNT(*) FROM faq
+  	</select>
+  	
+  	<select id="getBoardFaq" resultType="com.itwillbs.domain.BoardFaqDTO">
+  		SELECT * FROM faq WHERE faq_idx=#{faq_idx}
+  	</select>
+  	
+  	<update id="updateBoardFaq">
+  		UPDATE faq SET faq_category=#{faq_category}, faq_subject=#{faq_subject}, faq_content=#{faq_content}
+  		WHERE faq_idx=#{faq_idx}
+  	</update>
+  	
+  	<delete id="deleteBoardFaq">
+  		DELETE FROM faq WHERE faq_idx=#{faq_idx}
+  	</delete>
+  </mapper>

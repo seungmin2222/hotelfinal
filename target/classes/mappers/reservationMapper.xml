@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.mapper.ReservationMapper">
+   <insert id="insertReservation">
+      INSERT INTO reservation(book_user,book_number,book_checkin,book_checkout,book_room_name,book_rooms,book_adult,book_children,book_bed,book_breakfast_adult,book_breakfast_children,book_reqmatter,book_totalPrice)
+      VALUES(#{book_user},#{book_number},#{book_checkin},#{book_checkout},#{book_room_name},#{book_rooms},#{book_adult},#{book_children},#{book_bed},#{book_breakfast_adult},#{book_breakfast_children},#{book_reqmatter},${book_totalPrice})
+   </insert>
+   
+   <select id="getMemberDTO"
+      resultType="com.itwillbs.domain.MemberDTO">
+      select * from member where member_id=#{member_id};
+   </select>
+   
+   <select id="getReservationInfo"
+      resultType="com.itwillbs.domain.ReservationDTO">
+      SELECT * FROM reservation where book_number=#{book_number};
+   
+   </select>
+   
+   <select id="getBoardList" resultType="com.itwillbs.domain.ReservationDTO">
+      select * from reservation order by book_checkin limit #{startRow},#{pageSize}
+   </select>
+   
+   <select id="getBoardCount" resultType="java.lang.Integer">
+      select count(*) from reservation
+   </select>
+   
+   <update id="updateTotalPrice">
+      update member set
+      member_totalPrice = #{member_totalPrice}
+      where member_id = #{member_id}
+   </update>
+   
+   <select id="getReservationList" resultType="com.itwillbs.domain.ReservationDTO">
+      select * from reservation order by book_checkin ASC;
+   </select>
+<!--    <insert id="insertReservation"> -->
+<!--       INSERT INTO reservation(book_reqmatter) -->
+<!--       VALUES(#{book_reqmatter}) -->
+<!--    </insert> -->
+</mapper>

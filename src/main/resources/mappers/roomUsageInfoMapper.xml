@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.mapper.roomUsageInfoMapper">
+
+	<select id="getTodayUser" resultType="com.itwillbs.domain.ReservationDTO">
+		SELECT * FROM reservation WHERE book_checkin=#{day}
+	</select>
+	
+	<select id="getReservation" resultType="com.itwillbs.domain.ReservationDTO">
+		SELECT * FROM reservation WHERE book_number=#{code}
+	</select>
+	
+	<insert id="setDB">
+		INSERT INTO state(book_user_id,book_checkin,book_checkout,book_number,book_room_name,checkin_state) 
+		VALUES(#{book_user_id},#{book_checkin},#{book_checkout},#{book_number},#{book_room_name},0)
+	</insert>
+	
+	<update id="addDBname">
+		UPDATE state SET book_user_name=#{book_user_name} WHERE book_number=#{book_number}
+	</update>
+
+	<select id="getName" resultType="com.itwillbs.domain.MemberDTO">
+		SELECT member_name FROM member WHERE member_id=#{member_id}
+	</select>
+	
+	<select id="checkDay" resultType="com.itwillbs.domain.StateDTO">
+		SELECT * FROM state WHERE book_checkin=#{day}
+	</select>
+	
+	<select id="doCheckIn" resultType="com.itwillbs.domain.StateDTO">
+		SELECT * FROM state WHERE checkin_state>0
+	</select>
+
+	<select id="doNotCheckIn" resultType="com.itwillbs.domain.StateDTO">
+		SELECT * FROM state WHERE checkin_state=0
+	</select>
+	
+	<select id="getRoomInfo" resultType="com.itwillbs.domain.RoomInfoDTO">
+		SELECT * FROM roomInfo WHERE room_number=#{num}
+	</select>
+	
+	<update id="assignedRoomAndupdateStateDB">
+		UPDATE state 
+		SET
+		assigned_room_name=#{assigned_room_name},
+		assigned_room=#{assigned_room},
+		etc=#{etc},
+		checkin_state=1
+		WHERE book_number=#{book_number}
+	</update>
+	
+	<select id="forUpdateRoomInfoToGetStateDB" resultType="com.itwillbs.domain.StateDTO">
+		SELECT * FROM state WHERE book_number=#{book_number}
+	</select>
+	
+	<update id="assignedRoomAndupdateRoomInfoDB">
+		UPDATE roominfo
+		SET
+		room_user=#{room_user},
+		room_checkin=#{room_checkin},
+		room_checkout=#{room_checkout},
+		room_etc=#{room_etc}
+		WHERE room_number=#{room_number}
+	</update>
+	
+	<update id="RoomChangeAndUpdateStateDB">
+		UPDATE state
+		SET
+		assigned_room_name=null,
+		assigned_room=null,
+		etc=null,
+		checkin_state=0
+		WHERE assigned_room=#{roomNum}
+	</update>
+	
+	<update id="RoomChangeAndUpdateRoomInfoDB">
+		UPDATE roominfo
+		SET
+		room_user=null,
+		room_checkin=null,
+		room_checkout=null,
+		room_etc=null
+		WHERE room_number=#{roomNum}
+	</update>
+	
+	<select id="getRoomInfoList" resultType="com.itwillbs.domain.RoomInfoDTO">
+	SELECT * FROM roominfo WHERE room_user is null
+	</select>
+	
+	<select id="getAllRoomInfo" resultType="com.itwillbs.domain.RoomInfoDTO">
+	SELECT * FROM roominfo order by room_number DESC
+	</select>
+	
+	<update id="forUpdateRoomInfoDBTocheckout">
+		UPDATE roominfo
+		SET
+		room_user=null,
+		room_checkin=null,
+		room_checkout=null,
+		room_etc=null
+		WHERE 
+		room_checkout=#{day}
+	</update>
+	
+	<delete id="forDeleteStateDBTocheckout">
+		DELETE FROM state where book_checkout=#{day}
+	</delete>
+	
+</mapper>

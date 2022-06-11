@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.itwillbs.mapper.BoardNoticeMapper">
+  	<insert id="insertNotice">
+  		INSERT INTO notice(notice_idx, notice_subject, notice_content, notice_date, notice_readcount, notice_file)
+  		VALUES(#{notice_idx}, #{notice_subject}, #{notice_content}, #{notice_date}, #{notice_readcount}, #{notice_file})
+  	</insert>
+  	
+  	<select id="getMaxNum" resultType="java.lang.Integer">
+  		SELECT MAX(notice_idx) FROM notice
+  	</select>
+  	
+  	<select id="getBoardNoticeList" resultType="com.itwillbs.domain.BoardNoticeDTO">
+  		SELECT * FROM notice ORDER BY notice_idx DESC LIMIT #{startRow},#{pageSize}
+  	</select>
+  	
+  	<select id="getBoardNoticeCount" resultType="java.lang.Integer">
+  		SELECT COUNT(*) FROM notice
+  	</select>
+  	
+  	<select id="getBoardNotice" resultType="com.itwillbs.domain.BoardNoticeDTO">
+  		SELECT * FROM notice WHERE notice_idx=#{notice_idx}
+  	</select>
+  	
+  	<update id="updateReadcount">
+  		UPDATE notice SET notice_readcount=notice_readcount+1 WHERE notice_idx=#{notice_idx}
+  	</update>
+  	
+  	<update id="updateBoardNotice">
+  		UPDATE notice SET notice_subject=#{notice_subject},notice_content=#{notice_content},notice_file=#{notice_file}
+  		WHERE notice_idx=#{notice_idx}
+  	</update>
+  	
+  	<delete id="deleteBoardNotice">
+  		DELETE FROM notice WHERE notice_idx=#{notice_idx}
+  	</delete>
+  </mapper>
